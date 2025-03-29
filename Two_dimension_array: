@@ -1,0 +1,74 @@
+Save the string “WELCOMETOZOHOCORPORATION” in a two dimensional array and search for substring like “too” in the two dimensional string both from left to right and from top to bottom.
+
+
+public class SubstringSearch {
+    public static void main(String[] args) {
+        // Define the string and convert it into a 2D array
+        String str = "WELCOMETOZOHOCORPORATION";
+        int rows = 5; // Define the number of rows
+        int cols = 5; // Define the number of columns
+        char[][] grid = new char[rows][cols];
+
+        // Fill the 2D array with characters from the string
+        int index = 0;
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                if (index < str.length()) {
+                    grid[i][j] = str.charAt(index++);
+                } else {
+                    grid[i][j] = ' '; // Fill remaining spaces with empty characters
+                }
+            }
+        }
+
+        // Print the 2D array
+        System.out.println("2D Array:");
+        for (char[] row : grid) {
+            System.out.println(row);
+        }
+
+        // Search for the substring "too"
+        String substring = "too";
+        boolean found = searchSubstring(grid, substring);
+
+        if (found) {
+            System.out.println("Substring \"" + substring + "\" found in the grid.");
+        } else {
+            System.out.println("Substring \"" + substring + "\" not found in the grid.");
+        }
+    }
+
+    // Method to search for the substring in the grid
+    public static boolean searchSubstring(char[][] grid, String substring) {
+        int rows = grid.length;
+        int cols = grid[0].length;
+
+        // Search horizontally
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j <= cols - substring.length(); j++) {
+                StringBuilder sb = new StringBuilder();
+                for (int k = 0; k < substring.length(); k++) {
+                    sb.append(grid[i][j + k]);
+                }
+                if (sb.toString().equalsIgnoreCase(substring)) {
+                    return true; // Found horizontally
+                }
+            }
+        }
+
+        // Search vertically
+        for (int j = 0; j < cols; j++) {
+            for (int i = 0; i <= rows - substring.length(); i++) {
+                StringBuilder sb = new StringBuilder();
+                for (int k = 0; k < substring.length(); k++) {
+                    sb.append(grid[i + k][j]);
+                }
+                if (sb.toString().equalsIgnoreCase(substring)) {
+                    return true; // Found vertically
+                }
+            }
+        }
+
+        return false; // Not found
+    }
+}
