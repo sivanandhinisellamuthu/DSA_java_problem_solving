@@ -1,1 +1,80 @@
+Given a set of numbers like <10, 36, 54,89,12> we want to find sum of weights based on the following conditions:   
 
+1. 5 if a perfect square     
+2. 4 if multiple of 4 and divisible by 6
+3. 3 if even number
+And sort the numbers based on the weight and print it as follows <10,its_weight>,<36,its weight><89,its weight> Should display the numbers based on increasing order.
+
+
+import java.util.*;
+
+public class WeightSum {
+    public static void main(String[] args) {
+        // Given set of numbers
+        Integer[] numbers = {10, 36, 54, 89, 12};
+
+        // Create a list to hold the number and its weight
+        List<NumberWeight> numberWeights = new ArrayList<>();
+
+        // Calculate weights based on the conditions
+        for (int number : numbers) {
+            int weight = calculateWeight(number);
+            numberWeights.add(new NumberWeight(number, weight));
+        }
+
+        // Sort the list based on weights
+        Collections.sort(numberWeights, Comparator.comparingInt(NumberWeight::getWeight));
+
+        // Print the results
+        for (NumberWeight nw : numberWeights) {
+            System.out.print("<" + nw.getNumber() + "," + nw.getWeight() + ">");
+        }
+    }
+
+    // Method to calculate the weight of a number based on the given conditions
+    private static int calculateWeight(int number) {
+        int weight = 0;
+
+        // Condition 1: Perfect square
+        if (isPerfectSquare(number)) {
+            weight += 5;
+        }
+
+        // Condition 2: Multiple of 4 and divisible by 6
+        if (number % 4 == 0 && number % 6 == 0) {
+            weight += 4;
+        }
+
+        // Condition 3: Even number
+        if (number % 2 == 0) {
+            weight += 3;
+        }
+
+        return weight;
+    }
+
+    // Helper method to check if a number is a perfect square
+    private static boolean isPerfectSquare(int number) {
+        int sqrt = (int) Math.sqrt(number);
+        return (sqrt * sqrt == number);
+    }
+
+    // Class to hold number and its weight
+    static class NumberWeight {
+        private final int number;
+        private final int weight;
+
+        public NumberWeight(int number, int weight) {
+            this.number = number;
+            this.weight = weight;
+        }
+
+        public int getNumber() {
+            return number;
+        }
+
+        public int getWeight() {
+            return weight;
+        }
+    }
+}
